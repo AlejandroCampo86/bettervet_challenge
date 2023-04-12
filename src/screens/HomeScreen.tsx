@@ -1,11 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {SearchBar} from '@rneui/themed';
 import MapView, {Marker} from 'react-native-maps';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
+  const [search, setSearch] = useState('');
+
+  const updateSearch = (value: any) => {
+    setSearch(value);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -14,6 +20,15 @@ const MapScreen: React.FC = () => {
         <TouchableOpacity onPress={() => navigation.navigate('Detail')}>
           <Text style={styles.location}>Look for Restaurants in your area</Text>
         </TouchableOpacity>
+
+        <View style={styles.searchBar}>
+          <SearchBar
+            platform="android"
+            placeholder="Type Here..."
+            onChangeText={updateSearch}
+            value={search}
+          />
+        </View>
       </View>
       <View style={styles.mapContainer}>
         <MapView
@@ -43,6 +58,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'pink',
   },
+  searchBar: {
+    width: '90%',
+    elevation: 1, // Add elevation to provide a shadow effect
+    alignSelf: 'center',
+    borderRadius: 15,
+  },
   mapContainer: {
     padding: 15,
     flex: 1,
@@ -54,7 +75,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flex: 1,
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   title: {
     color: 'black',
