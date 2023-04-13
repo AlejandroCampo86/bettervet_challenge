@@ -8,7 +8,8 @@ import {LocationContext} from '../services/location.context';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
-  const {search, keyword, location, isLoading} = useContext(LocationContext);
+  const {search, keyword, location, isLoading, restaurants} =
+    useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
   const [latDelta, setLatDelta] = useState(0);
 
@@ -55,7 +56,7 @@ const MapScreen: React.FC = () => {
         {/* <Text style={styles.location}>{location && location}</Text> */}
       </View>
       <View style={styles.mapContainer}>
-        {!isLoading ? (
+        {location ? (
           <MapView
             style={styles.map}
             initialRegion={{
@@ -64,14 +65,18 @@ const MapScreen: React.FC = () => {
               latitudeDelta: latDelta,
               longitudeDelta: 0.0421,
             }}>
-            <Marker
-              coordinate={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-              }}
-              title="Marker Title"
-              description="Marker Description"
-            />
+            {/* Render restaurant markers on the map */}
+            {restaurants.map(restaurant => (
+              <Marker
+                key={restaurant.place_id}
+                coordinate={{
+                  latitude: restaurant.geometry.location.lat,
+                  longitude: restaurant.geometry.location.lng,
+                }}
+                title={restaurant.name}
+                description={restaurant.vicinity}
+              />
+            ))}
           </MapView>
         ) : null}
       </View>
