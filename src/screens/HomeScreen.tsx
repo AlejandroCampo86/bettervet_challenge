@@ -1,34 +1,45 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SearchBar} from '@rneui/themed';
 import MapView, {Marker} from 'react-native-maps';
+import {LocationContext} from '../services/location.context';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [search, setSearch] = useState('');
+  const {search, keyword, location} = useContext(LocationContext);
+  const [searchKeyword, setSearchKeyword] = useState(keyword);
+  useEffect(() => {
+    setSearchKeyword(keyword);
+  }, [keyword]);
 
-  const updateSearch = (value: any) => {
-    setSearch(value);
-  };
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Text style={styles.title}>Restaurant Challenge</Text>
+        <Text style={styles.title}>BetterVet Challenge</Text>
 
         <TouchableOpacity onPress={() => navigation.navigate('Detail')}>
           <Text style={styles.location}>Look for Restaurants in your area</Text>
         </TouchableOpacity>
 
+        <Text style={styles.location}>or</Text>
+
         <View style={styles.searchBar}>
           <SearchBar
             platform="android"
-            placeholder="Type Here..."
-            onChangeText={updateSearch}
-            value={search}
+            placeholder="Enter a location"
+            onChangeText={text => {
+              setSearchKeyword(text);
+            }}
+            value={searchKeyword}
+            onSubmitEditing={() => {
+              search(searchKeyword);
+            }}
           />
         </View>
+
+        <Text style={styles.location}>{location && location}</Text>
       </View>
       <View style={styles.mapContainer}>
         <MapView
