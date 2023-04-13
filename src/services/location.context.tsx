@@ -13,6 +13,7 @@ export const LocationContextProvider = ({children}: any) => {
   const [location, setLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
+  const [localRestaurants, setLocalRestaurants] = useState([]);
 
   const onSearch = async searchKeyword => {
     setIsLoading(true);
@@ -80,9 +81,9 @@ export const LocationContextProvider = ({children}: any) => {
 
   const getLocalRestaurants = async () => {
     try {
-      const localRestaurants = await fetchLocalRestaurants();
+      const localRes = await fetchLocalRestaurants();
       //console.log('restaurants from context ', localRestaurants);
-      setRestaurants(localRestaurants);
+      setLocalRestaurants(localRes);
     } catch (e) {
       console.log(e);
     }
@@ -100,6 +101,7 @@ export const LocationContextProvider = ({children}: any) => {
     <LocationContext.Provider
       value={{
         isLoading,
+        localRestaurants,
         restaurants,
         search: onSearch,
         keyword,

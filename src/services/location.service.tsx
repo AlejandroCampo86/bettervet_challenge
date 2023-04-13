@@ -1,5 +1,4 @@
 import Geolocation from '@react-native-community/geolocation';
-import camelize from 'camelize';
 
 export const fetchLocalRestaurants = () => {
   return new Promise((resolve, reject) => {

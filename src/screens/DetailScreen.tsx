@@ -6,13 +6,13 @@ import {LocationContext} from '../services/location.context';
 
 // Define the restaurant screen component
 const RestaurantScreen: React.FC = () => {
-  const {restaurants, userLocation} = useContext(LocationContext);
+  const {localRestaurants, userLocation} = useContext(LocationContext);
 
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={userLocation}>
         {/* Render restaurant markers on the map */}
-        {restaurants.map(restaurant => (
+        {localRestaurants.map(restaurant => (
           <Marker
             key={restaurant.place_id}
             coordinate={{
