@@ -8,11 +8,24 @@ import {LocationContext} from '../services/location.context';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
-  const {search, keyword, location} = useContext(LocationContext);
+  const {search, keyword, location, isLoading} = useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
+  const [latDelta, setLatDelta] = useState(0);
+
   useEffect(() => {
     setSearchKeyword(keyword);
   }, [keyword]);
+
+  const {lat, lng, viewport} = location || {}; // Use empty object as fallback
+
+  useEffect(() => {
+    if (location && viewport) {
+      const northeastLat = viewport.northeast.lat;
+      const southwestLat = viewport.southwest.lat;
+
+      setLatDelta(northeastLat - southwestLat);
+    }
+  }, [location, viewport]);
 
   return (
     <View style={styles.container}>
@@ -39,26 +52,28 @@ const MapScreen: React.FC = () => {
           />
         </View>
 
-        <Text style={styles.location}>{location && location}</Text>
+        {/* <Text style={styles.location}>{location && location}</Text> */}
       </View>
       <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}>
-          <Marker
-            coordinate={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-            }}
-            title="Marker Title"
-            description="Marker Description"
-          />
-        </MapView>
+        {!isLoading ? (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: lat,
+              longitude: lng,
+              latitudeDelta: latDelta,
+              longitudeDelta: 0.0421,
+            }}>
+            <Marker
+              coordinate={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+              }}
+              title="Marker Title"
+              description="Marker Description"
+            />
+          </MapView>
+        ) : null}
       </View>
     </View>
   );

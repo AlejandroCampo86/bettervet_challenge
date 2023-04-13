@@ -32,15 +32,21 @@ export const fetchLocalRestaurants = () => {
 };
 
 export const fetchRestaurantsByLocation = location => {
+  console.log('location from fetch ', location);
   return new Promise((resolve, reject) => {
     // Make API request to fetch restaurants based on the location
     fetch(
       `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${location}&type=restaurant&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M`,
-    )
-      .then(response => response.json())
+    ) // Replace YOUR_API_KEY with your actual Google Maps API key
+      .then(res => res.json()) // Resolve the response to JSON
       .then(data => {
-        const resRestaurants = data.results;
-        resolve(resRestaurants); // Resolve the Promise with the data
+        console.log('result ', data);
+        const formattedResponse = camelize(data);
+        console.log('formatted result', formattedResponse);
+        const {geometry = {}} = formattedResponse.results[0];
+        const {lat, lng} = geometry.location;
+
+        resolve({lat, lng, viewport: geometry.viewport}); // Resolve the Promise with the data
       })
       .catch(error => {
         console.error(error);
@@ -49,10 +55,12 @@ export const fetchRestaurantsByLocation = location => {
   });
 };
 
-export const locationTransform = result => {
-  const formattedResponse = camelize(result);
-  const {geometry = {}} = formattedResponse.results[0];
-  const {lat, lng} = geometry.location;
+// export const locationTransform = result => {
+//   console.log(' result', result);
+//   const formattedResponse = camelize(result);
+//   console.log('formatted result', formattedResponse);
+//   const {geometry = {}} = formattedResponse.results[0];
+//   const {lat, lng} = geometry.location;
 
-  return {lat, lng, viewport: geometry.viewport};
-};
+//   return {lat, lng, viewport: geometry.viewport};
+// };

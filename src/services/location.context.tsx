@@ -70,7 +70,7 @@ export const LocationContextProvider = ({children}: any) => {
       return;
     }
     fetchRestaurantsByLocation(keyword.toLowerCase())
-      .then(locationTransform)
+      //   .then(locationTransform)
       .then(result => {
         console.log('location result');
         setError(null);
@@ -79,6 +79,7 @@ export const LocationContextProvider = ({children}: any) => {
       })
       .catch(err => {
         setIsLoading(false);
+        console.log('error ', err);
         setError(err);
       });
   }, [keyword]);
