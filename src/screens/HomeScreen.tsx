@@ -6,11 +6,11 @@ import {SearchBar} from '@rneui/themed';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 import {Card} from '@rneui/base';
+import BetterVetLogo from '../assets/better_vet_logo.jpg';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
-  const {search, keyword, location, isLoading, restaurants} =
-    useContext(LocationContext);
+  const {search, keyword, location, restaurants} = useContext(LocationContext);
   const {lat, lng, viewport} = location || {}; // Use empty object as fallback
   const [searchKeyword, setSearchKeyword] = useState(keyword);
   const [latDelta, setLatDelta] = useState(0);
@@ -35,14 +35,13 @@ const MapScreen: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
-        <Text style={styles.title}>BetterVet Challenge</Text>
+        <Image source={BetterVetLogo} style={styles.logo} />
 
         <TouchableOpacity onPress={() => navigation.navigate('Detail')}>
-          <Text style={styles.location}>Look for Restaurants in your area</Text>
+          <Text style={styles.location}>
+            Look for Restaurants in your area or search for a location
+          </Text>
         </TouchableOpacity>
-
-        <Text style={styles.location}>or</Text>
-
         <View style={styles.searchBar}>
           <SearchBar
             platform="android"
@@ -68,7 +67,7 @@ const MapScreen: React.FC = () => {
               longitudeDelta: 0.0421,
             }}>
             {/* Render restaurant markers on the map */}
-            {restaurants.map(restaurant => (
+            {restaurants.slice(0, 10).map(restaurant => (
               <Marker
                 key={restaurant.place_id}
                 coordinate={{
@@ -85,28 +84,33 @@ const MapScreen: React.FC = () => {
 
       {/* Render restaurant cards */}
       <ScrollView style={styles.cardContainer}>
-        {restaurants.map(restaurant => (
-          <Card key={restaurant.place_id} containerStyle={styles.card}>
-            {/* Render restaurant photo */}
-            {restaurant.photos && restaurant.photos.length > 0 && (
-              <Image
-                source={{
-                  uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M
+        {restaurants
+          .sort((a, b) => b.rating - a.rating) // Sort restaurants by highest rating
+          .slice(0, 10) // Get the first 10 items
+          .map(restaurant => (
+            <Card key={restaurant.place_id} containerStyle={styles.card}>
+              {/* Render restaurant photo */}
+              {restaurant.photos && restaurant.photos.length > 0 && (
+                <Image
+                  source={{
+                    uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M
 `,
-                }}
-                style={styles.cardImage}
-              />
-            )}
-            <Text style={styles.cardTitle}>{restaurant.name}</Text>
-            <Text style={styles.cardAddress}>{restaurant.vicinity}</Text>
-            <View style={styles.cardInfoContainer}>
-              <Text style={styles.cardRating}>Rating: {restaurant.rating}</Text>
-              <Text style={styles.cardAddress}>
-                Address: {restaurant.formatted_address}
-              </Text>
-            </View>
-          </Card>
-        ))}
+                  }}
+                  style={styles.cardImage}
+                />
+              )}
+              <Text style={styles.cardTitle}>{restaurant.name}</Text>
+              <Text style={styles.cardAddress}>{restaurant.vicinity}</Text>
+              <View style={styles.cardInfoContainer}>
+                <Text style={styles.cardRating}>
+                  Rating: {restaurant.rating}
+                </Text>
+                <Text style={styles.cardAddress}>
+                  Address: {restaurant.formatted_address}
+                </Text>
+              </View>
+            </Card>
+          ))}
       </ScrollView>
     </ScrollView>
   );
@@ -115,7 +119,7 @@ const MapScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#2962ff',
   },
   searchContainer: {
     flex: 1,
@@ -146,14 +150,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
   },
+  logo: {
+    width: '90%',
+    height: 100,
+    resizeMode: 'contain',
+  },
   location: {
-    color: 'blue',
-    fontSize: 20,
+    color: 'white',
+    fontSize: 14,
     textAlign: 'center',
   },
   cardContainer: {
     flex: 1,
     padding: 10,
+    marginTop: 10,
+    backgroundColor: '#2962ff',
     flexDirection: 'column',
   },
   card: {
