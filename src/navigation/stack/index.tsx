@@ -3,6 +3,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import RestaurantsComponent from '../../../src/screens/RestaurantsComponent';
 import LocalRestaurantsComponent from '../../../src/screens/LocalRestaurantsComponent';
+import RestaurantDetails from '../../screens/RestaurantDetails';
 
 // Define a stack navigator type
 type RootStackParamList = {
@@ -16,23 +17,27 @@ const restaurantsStack = createStackNavigator<RootStackParamList>();
 // Define the LocalRestaurantsStack as a separate component
 export const LocalRestaurantsStackScreen: React.FC = () => {
   return (
-    <localRestaurantsStack.Navigator screenOptions={{headerShown: false}}>
-      <localRestaurantsStack.Screen
-        name="LocalRestaurants"
+    <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
+      <restaurantsStack.Screen
+        name="RestaurantsComponent"
         component={RestaurantsComponent}
       />
-    </localRestaurantsStack.Navigator>
+      <restaurantsStack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
+      />
+    </restaurantsStack.Navigator>
   );
 };
 
 // Define the RestaurantsStack as a separate component
 export const RestaurantsStackScreen: React.FC = () => {
   return (
-    <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
-      <restaurantsStack.Screen
-        name="Detail"
+    <localRestaurantsStack.Navigator screenOptions={{headerShown: false}}>
+      <localRestaurantsStack.Screen
+        name="LocalRestaurantsComponent"
         component={LocalRestaurantsComponent}
       />
-    </restaurantsStack.Navigator>
+    </localRestaurantsStack.Navigator>
   );
 };

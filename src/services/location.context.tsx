@@ -26,7 +26,7 @@ export const LocationContextProvider = ({children}: any) => {
     return new Promise(() => {
       // Make API request to fetch restaurants based on the keyword
       fetch(
-        `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&type=restaurant&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M`,
+        `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${value}&type=restaurant&fields=name,formatted_address,rating,opening_hours,geometry,photos,place_id,reviews&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M`,
       ) // Replace YOUR_API_KEY with your actual Google Maps API key
         .then(res => res.json()) // Resolve the response to JSON
         .then(data => {

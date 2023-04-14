@@ -8,14 +8,18 @@ import SearchBarComponent from '../components/searchBar';
 const RestaurantsComponent: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.searchContainer}>
-        <Text style={styles.location}>
-          Look for Restaurants in your area or search for a location
-        </Text>
-        <SearchBarComponent />
+      <View style={styles.subContainer}>
+        <View style={styles.searchContainer}>
+          <Text style={styles.location}>
+            Look for Restaurants in your area or search for a location
+          </Text>
+          <SearchBarComponent />
+        </View>
+        <MapViewComponent />
       </View>
-      <MapViewComponent />
-      <RestaurantsList />
+      <View style={styles.listContainer}>
+        <RestaurantsList />
+      </View>
     </ScrollView>
   );
 };
@@ -23,13 +27,26 @@ const RestaurantsComponent: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e8e8e8',
+    borderRadius: 20,
+    zIndex: 999,
+  },
+  subContainer: {
+    flex: 2,
+    justifyContent: 'space-evenly',
+    paddingBottom: 20,
     backgroundColor: '#2962ff',
     borderRadius: 20,
+    zIndex: 999,
+  },
+  listContainer: {
+    flex: 1,
   },
   searchContainer: {
-    flex: 1,
+    flex: 0.5,
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    //borderWidth: 1,
   },
   location: {
     color: 'white',
