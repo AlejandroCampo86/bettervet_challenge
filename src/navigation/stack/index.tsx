@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../../../src/screens/HomeScreen';
-import DetailScreen from '../../../src/screens/DetailScreen';
+import RestaurantsComponent from '../../../src/screens/RestaurantsComponent';
+import LocalRestaurantsComponent from '../../../src/screens/LocalRestaurantsComponent';
 
 // Define a stack navigator type
 type RootStackParamList = {
@@ -19,7 +19,7 @@ export const LocalRestaurantsStackScreen: React.FC = () => {
     <localRestaurantsStack.Navigator screenOptions={{headerShown: false}}>
       <localRestaurantsStack.Screen
         name="LocalRestaurants"
-        component={HomeScreen}
+        component={RestaurantsComponent}
       />
     </localRestaurantsStack.Navigator>
   );
@@ -29,7 +29,10 @@ export const LocalRestaurantsStackScreen: React.FC = () => {
 export const RestaurantsStackScreen: React.FC = () => {
   return (
     <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
-      <restaurantsStack.Screen name="Detail" component={DetailScreen} />
+      <restaurantsStack.Screen
+        name="Detail"
+        component={LocalRestaurantsComponent}
+      />
     </restaurantsStack.Navigator>
   );
 };

@@ -7,7 +7,7 @@ import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 import {Card} from '@rneui/base';
 
-const MapScreen: React.FC = () => {
+const RestaurantsComponent: React.FC = () => {
   const navigation = useNavigation();
   const {search, keyword, location, restaurants} = useContext(LocationContext);
   const {lat, lng, viewport} = location || {}; // Use empty object as fallback
@@ -130,16 +130,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   mapContainer: {
-    padding: 15,
+    padding: 5,
     flex: 1,
     borderColor: 'black',
-    backgroundColor: '#FCF2F0',
+    backgroundColor: 'white',
     borderRadius: 20,
     marginHorizontal: 20,
   },
   map: {
     flex: 1,
-    padding: 10,
+    padding: 5,
     borderRadius: 15,
   },
   title: {
@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    padding: 10,
+    padding: 5,
     marginTop: 10,
     backgroundColor: '#2962ff',
     flexDirection: 'column',
   },
   card: {
     color: 'black',
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: 10,
   },
   cardImage: {
@@ -195,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapScreen;
+export default RestaurantsComponent;
