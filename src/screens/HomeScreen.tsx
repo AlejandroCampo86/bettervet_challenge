@@ -1,15 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState, useContext, useEffect} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SearchBar} from '@rneui/themed';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
+import {Card} from '@rneui/base';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
   const {search, keyword, location, isLoading, restaurants} =
     useContext(LocationContext);
+  const {lat, lng, viewport} = location || {}; // Use empty object as fallback
   const [searchKeyword, setSearchKeyword] = useState(keyword);
   const [latDelta, setLatDelta] = useState(0);
 
@@ -17,7 +19,9 @@ const MapScreen: React.FC = () => {
     setSearchKeyword(keyword);
   }, [keyword]);
 
-  const {lat, lng, viewport} = location || {}; // Use empty object as fallback
+  useEffect(() => {
+    search(keyword);
+  }, []);
 
   useEffect(() => {
     if (location && viewport) {
@@ -29,7 +33,7 @@ const MapScreen: React.FC = () => {
   }, [location, viewport]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
         <Text style={styles.title}>BetterVet Challenge</Text>
 
@@ -52,8 +56,6 @@ const MapScreen: React.FC = () => {
             }}
           />
         </View>
-
-        {/* <Text style={styles.location}>{location && location}</Text> */}
       </View>
       <View style={styles.mapContainer}>
         {location ? (
@@ -80,7 +82,33 @@ const MapScreen: React.FC = () => {
           </MapView>
         ) : null}
       </View>
-    </View>
+
+      {/* Render restaurant cards */}
+      <ScrollView style={styles.cardContainer}>
+        {restaurants.map(restaurant => (
+          <Card key={restaurant.place_id} containerStyle={styles.card}>
+            {/* Render restaurant photo */}
+            {restaurant.photos && restaurant.photos.length > 0 && (
+              <Image
+                source={{
+                  uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M
+`,
+                }}
+                style={styles.cardImage}
+              />
+            )}
+            <Text style={styles.cardTitle}>{restaurant.name}</Text>
+            <Text style={styles.cardAddress}>{restaurant.vicinity}</Text>
+            <View style={styles.cardInfoContainer}>
+              <Text style={styles.cardRating}>Rating: {restaurant.rating}</Text>
+              <Text style={styles.cardAddress}>
+                Address: {restaurant.formatted_address}
+              </Text>
+            </View>
+          </Card>
+        ))}
+      </ScrollView>
+    </ScrollView>
   );
 };
 
@@ -88,6 +116,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'pink',
+  },
+  searchContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   searchBar: {
     width: '90%',
@@ -98,16 +131,15 @@ const styles = StyleSheet.create({
   mapContainer: {
     padding: 15,
     flex: 1,
+    borderColor: 'black',
+    backgroundColor: '#FCF2F0',
+    borderRadius: 20,
+    marginHorizontal: 20,
   },
   map: {
     flex: 1,
     padding: 10,
     borderRadius: 15,
-  },
-  searchContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
   },
   title: {
     color: 'black',
@@ -118,6 +150,40 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 20,
     textAlign: 'center',
+  },
+  cardContainer: {
+    flex: 1,
+    padding: 10,
+    flexDirection: 'column',
+  },
+  card: {
+    color: 'black',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  cardImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+  },
+  cardTitle: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  cardAddress: {
+    fontSize: 16,
+    color: 'gray',
+    marginVertical: 0,
+  },
+  cardInfoContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  cardRating: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'green',
   },
 });
 

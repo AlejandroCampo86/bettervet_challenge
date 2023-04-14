@@ -9,7 +9,6 @@ export const LocationContextProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [keyword, setKeyword] = useState('Buenos Aires');
-  const [fetchedData, setFetchedData] = useState({});
   const [location, setLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
@@ -32,7 +31,7 @@ export const LocationContextProvider = ({children}: any) => {
         .then(res => res.json()) // Resolve the response to JSON
         .then(data => {
           console.log('data fetched ', data);
-          setFetchedData(data);
+
           //Set restaurants by keyword
           console.log('restaurant fetched ', data.results[0]);
           setRestaurants(data.results);
