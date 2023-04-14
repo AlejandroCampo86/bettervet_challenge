@@ -6,6 +6,9 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from '../../src/components/DrawerContent';
 import {LocalRestaurantsStackScreen, RestaurantsStackScreen} from './stack';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon from 'react-native-vector-icons/FontAwesome' for icons
+import {StyleSheet, View} from 'react-native';
+import BetterVetLogo from '../assets/better_vet_logo.jpg';
+import {Image} from 'react-native';
 
 // Define a bottom tab navigator type
 type BottomTabParamList = {
@@ -21,12 +24,23 @@ type DrawerParamList = {
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
+// Custom component for the header
+const CustomHeader = () => {
+  return (
+    <View style={styles.logoContainer}>
+      <Image source={BetterVetLogo} style={styles.logo} />
+    </View>
+  );
+};
+
 // Define a functional component using TypeScript
 const Navigation: React.FC = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-        <Drawer.Screen name="BetterVet Challenge">
+        <Drawer.Screen
+          name="BetterVet Challenge"
+          options={{header: () => <CustomHeader />}}>
           {() => (
             <BottomTab.Navigator
               screenOptions={({route}) => ({
@@ -62,3 +76,17 @@ const Navigation: React.FC = () => {
 };
 
 export default Navigation;
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    backgroundColor: 'white',
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '50%',
+    height: 50,
+    resizeMode: 'contain',
+  },
+});

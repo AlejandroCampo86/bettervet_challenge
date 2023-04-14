@@ -6,7 +6,6 @@ import {SearchBar} from '@rneui/themed';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 import {Card} from '@rneui/base';
-import BetterVetLogo from '../assets/better_vet_logo.jpg';
 
 const MapScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -35,8 +34,6 @@ const MapScreen: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
-        <Image source={BetterVetLogo} style={styles.logo} />
-
         <TouchableOpacity onPress={() => navigation.navigate('Detail')}>
           <Text style={styles.location}>
             Look for Restaurants in your area or search for a location
