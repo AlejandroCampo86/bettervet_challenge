@@ -6,6 +6,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {LocationContextProvider} from './src/services/location.context';
+import Navigation from './src/navigation';
 
 // Define a stack navigator type
 type RootStackParamList = {
@@ -20,12 +21,7 @@ const App: React.FC = () => {
   return (
     <SafeAreaProvider>
       <LocationContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Detail" component={DetailScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <Navigation />
       </LocationContextProvider>
     </SafeAreaProvider>
   );
