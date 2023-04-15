@@ -18,7 +18,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({navigation}) => {
       <TouchableOpacity
         style={styles.rowContainer}
         onPress={() => {
-          navigation.navigate('SearchLocation');
+          navigation.navigate('RestaurantsComponent');
         }}>
         <Text style={styles.rowText}>Search for a Location</Text>
       </TouchableOpacity>
