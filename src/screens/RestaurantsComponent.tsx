@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useContext, useEffect, useRef} from 'react';
+import {View, StyleSheet, ScrollView, Animated} from 'react-native';
 import {Text} from '@rneui/themed';
 import MapViewComponent from '../components/mapView';
 import RestaurantsList from '../components/restaurantsList';
@@ -8,9 +8,29 @@ import {LocationContext} from '../services/location.context';
 
 const RestaurantsComponent: React.FC = () => {
   const {restaurants} = useContext(LocationContext);
+  const slideAnim = useRef(new Animated.Value(-500)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.subContainer}>
+      <Animated.View
+        style={[
+          styles.subContainer,
+          {
+            transform: [
+              {
+                translateY: slideAnim,
+              },
+            ],
+          },
+        ]}>
         <View style={styles.searchContainer}>
           <Text style={styles.location}>
             Look for restaurants in a specific location
@@ -18,7 +38,7 @@ const RestaurantsComponent: React.FC = () => {
           <SearchBarComponent />
         </View>
         <MapViewComponent />
-      </View>
+      </Animated.View>
       <View style={styles.listContainer}>
         <RestaurantsList restaurants={restaurants} />
       </View>

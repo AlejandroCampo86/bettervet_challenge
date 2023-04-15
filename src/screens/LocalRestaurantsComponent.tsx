@@ -1,6 +1,6 @@
 // Import necessary modules and components
-import React, {useContext} from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import React, {useContext, useEffect, useRef} from 'react';
+import {View, StyleSheet, ScrollView, Text, Animated} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 import RestaurantsList from '../components/restaurantsList';
@@ -8,10 +8,29 @@ import RestaurantsList from '../components/restaurantsList';
 // Define the restaurant screen component
 const LocalRestaurantsComponent: React.FC = () => {
   const {localRestaurants, userLocation} = useContext(LocationContext);
+  const slideAnim = useRef(new Animated.Value(-500)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.subContainer}>
+      <Animated.View
+        style={[
+          styles.subContainer,
+          {
+            transform: [
+              {
+                translateY: slideAnim,
+              },
+            ],
+          },
+        ]}>
         <View style={styles.searchContainer}>
           <Text style={styles.location}>
             These are the Restaurants in your area
@@ -32,7 +51,7 @@ const LocalRestaurantsComponent: React.FC = () => {
             ))}
           </MapView>
         </View>
-      </View>
+      </Animated.View>
       <View style={styles.listContainer}>
         <RestaurantsList restaurants={localRestaurants} />
       </View>
@@ -40,7 +59,6 @@ const LocalRestaurantsComponent: React.FC = () => {
   );
 };
 
-// Define styles for the component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
