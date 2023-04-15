@@ -1,30 +1,35 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 
 export default function MapViewComponent() {
   const {location, restaurants} = useContext(LocationContext);
-  const [latDelta, setLatDelta] = useState(0);
-  const {lat, lng, viewport} = location || {}; // Use empty object as fallback
-  useEffect(() => {
-    if (location && viewport) {
-      const northeastLat = viewport.northeast.lat;
-      const southwestLat = viewport.southwest.lat;
+  const mapRef = useRef(null);
 
-      setLatDelta(northeastLat - southwestLat);
+  useEffect(() => {
+    if (location && restaurants.length > 0 && mapRef.current) {
+      const markers = restaurants.slice(0, 10).map(restaurant => ({
+        latitude: restaurant.geometry.location.lat,
+        longitude: restaurant.geometry.location.lng,
+      }));
+      mapRef.current.fitToCoordinates(markers, {
+        edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+        animated: true,
+      });
     }
-  }, [location, viewport]);
+  }, [location, restaurants]);
 
   return (
     <View style={styles.mapContainer}>
       {location ? (
         <MapView
+          ref={mapRef}
           style={styles.map}
           initialRegion={{
-            latitude: lat,
-            longitude: lng,
-            latitudeDelta: latDelta,
+            latitude: location.lat,
+            longitude: location.lng,
+            latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
           {/* Render restaurant markers on the map */}
