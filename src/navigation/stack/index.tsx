@@ -38,6 +38,10 @@ export const RestaurantsStackScreen: React.FC = () => {
         name="LocalRestaurantsComponent"
         component={LocalRestaurantsComponent}
       />
+      <restaurantsStack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
+      />
     </localRestaurantsStack.Navigator>
   );
 };

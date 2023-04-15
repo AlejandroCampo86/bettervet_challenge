@@ -8,12 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Card} from '@rneui/base';
-import {LocationContext} from '../services/location.context';
 import {useNavigation} from '@react-navigation/native';
 
-export default function RestaurantsList() {
+export default function RestaurantsList({restaurants}) {
   const navigation = useNavigation();
-  const {restaurants} = useContext(LocationContext);
 
   const handleRestaurantPress = restaurant => {
     navigation.navigate('RestaurantDetails', {restaurant});

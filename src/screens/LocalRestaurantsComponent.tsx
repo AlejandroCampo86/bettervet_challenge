@@ -6,7 +6,7 @@ import {LocationContext} from '../services/location.context';
 import RestaurantsList from '../components/restaurantsList';
 
 // Define the restaurant screen component
-const RestaurantScreen: React.FC = () => {
+const LocalRestaurantsComponent: React.FC = () => {
   const {localRestaurants, userLocation} = useContext(LocationContext);
 
   return (
@@ -34,7 +34,7 @@ const RestaurantScreen: React.FC = () => {
         </View>
       </View>
       <View style={styles.listContainer}>
-        <RestaurantsList />
+        <RestaurantsList restaurants={localRestaurants} />
       </View>
     </ScrollView>
   );
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RestaurantScreen;
+export default LocalRestaurantsComponent;

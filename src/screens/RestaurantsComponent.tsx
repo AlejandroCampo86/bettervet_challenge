@@ -1,24 +1,26 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {Text} from '@rneui/themed';
 import MapViewComponent from '../components/mapView';
 import RestaurantsList from '../components/restaurantsList';
 import SearchBarComponent from '../components/searchBar';
+import {LocationContext} from '../services/location.context';
 
 const RestaurantsComponent: React.FC = () => {
+  const {restaurants} = useContext(LocationContext);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.subContainer}>
         <View style={styles.searchContainer}>
           <Text style={styles.location}>
-            Look for Restaurants in your area or search for a location
+            Look for restaurants in a specific location
           </Text>
           <SearchBarComponent />
         </View>
         <MapViewComponent />
       </View>
       <View style={styles.listContainer}>
-        <RestaurantsList />
+        <RestaurantsList restaurants={restaurants} />
       </View>
     </ScrollView>
   );
