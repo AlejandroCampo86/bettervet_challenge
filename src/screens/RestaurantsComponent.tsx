@@ -19,30 +19,34 @@ const RestaurantsComponent: React.FC = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Animated.View
-        style={[
-          styles.subContainer,
-          {
-            transform: [
-              {
-                translateY: slideAnim,
-              },
-            ],
-          },
-        ]}>
-        <View style={styles.searchContainer}>
-          <Text style={styles.location}>
-            Look for restaurants in a specific location
-          </Text>
-          <SearchBarComponent />
+    <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContainer}
+        showsVerticalScrollIndicator={false}>
+        <Animated.View
+          style={[
+            styles.subContainer,
+            {
+              transform: [
+                {
+                  translateY: slideAnim,
+                },
+              ],
+            },
+          ]}>
+          <View style={styles.searchContainer}>
+            <Text style={styles.location}>
+              Look for restaurants in a specific location
+            </Text>
+            <SearchBarComponent />
+          </View>
+          <MapViewComponent />
+        </Animated.View>
+        <View style={styles.listContainer}>
+          <RestaurantsList restaurants={restaurants} />
         </View>
-        <MapViewComponent />
-      </Animated.View>
-      <View style={styles.listContainer}>
-        <RestaurantsList restaurants={restaurants} />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -53,8 +57,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     zIndex: 999,
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   subContainer: {
-    flex: 2,
+    height: 450,
     justifyContent: 'space-evenly',
     paddingBottom: 20,
     backgroundColor: '#2962ff',

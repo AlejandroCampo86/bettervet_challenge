@@ -19,49 +19,54 @@ const LocalRestaurantsComponent: React.FC = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Animated.View
-        style={[
-          styles.subContainer,
-          {
-            transform: [
-              {
-                translateY: slideAnim,
-              },
-            ],
-          },
-        ]}>
-        <View style={styles.searchContainer}>
-          <Text style={styles.location}>
-            These are the Restaurants in your area
-          </Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <Animated.View
+          style={[
+            styles.subContainer,
+            {
+              transform: [
+                {
+                  translateY: slideAnim,
+                },
+              ],
+            },
+          ]}>
+          <View style={styles.searchContainer}>
+            <Text style={styles.location}>
+              These are the Restaurants in your area
+            </Text>
+          </View>
+          <View style={styles.mapContainer}>
+            <MapView style={styles.map} initialRegion={userLocation}>
+              {localRestaurants.map(restaurant => (
+                <Marker
+                  key={restaurant.place_id}
+                  coordinate={{
+                    latitude: restaurant.geometry.location.lat,
+                    longitude: restaurant.geometry.location.lng,
+                  }}
+                  title={restaurant.name}
+                  description={restaurant.vicinity}
+                />
+              ))}
+            </MapView>
+          </View>
+        </Animated.View>
+        <View style={styles.listContainer}>
+          <RestaurantsList restaurants={localRestaurants} />
         </View>
-        <View style={styles.mapContainer}>
-          <MapView style={styles.map} initialRegion={userLocation}>
-            {localRestaurants.map(restaurant => (
-              <Marker
-                key={restaurant.place_id}
-                coordinate={{
-                  latitude: restaurant.geometry.location.lat,
-                  longitude: restaurant.geometry.location.lng,
-                }}
-                title={restaurant.name}
-                description={restaurant.vicinity}
-              />
-            ))}
-          </MapView>
-        </View>
-      </Animated.View>
-      <View style={styles.listContainer}>
-        <RestaurantsList restaurants={localRestaurants} />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
   },
   mapContainer: {
     padding: 5,
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   subContainer: {
-    flex: 2,
+    height: 450,
     justifyContent: 'space-evenly',
     paddingBottom: 20,
     backgroundColor: '#2962ff',

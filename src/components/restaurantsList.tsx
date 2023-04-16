@@ -1,13 +1,6 @@
-import React, {useContext} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {Card} from '@rneui/base';
+import React from 'react';
+import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Card, Text} from '@rneui/base';
 import {useNavigation} from '@react-navigation/native';
 
 export default function RestaurantsList({restaurants}) {
@@ -17,8 +10,16 @@ export default function RestaurantsList({restaurants}) {
     navigation.navigate('RestaurantDetails', {restaurant});
   };
 
+  if (!restaurants || restaurants.length === 0) {
+    return (
+      <View style={styles.cardContainer}>
+        <Text style={styles.errorMessage}>Oops, no restaurants found.</Text>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={styles.cardContainer}>
+    <View style={styles.cardContainer}>
       {restaurants
         .sort((a: {rating: number}, b: {rating: number}) => b.rating - a.rating) // Sort restaurants by highest rating
         .slice(0, 10) // Get the first 10 items
@@ -38,19 +39,18 @@ export default function RestaurantsList({restaurants}) {
                 />
               )}
               <Text style={styles.cardTitle}>{restaurant.name}</Text>
-              <Text style={styles.cardAddress}>{restaurant.vicinity}</Text>
               <View style={styles.cardInfoContainer}>
                 <Text style={styles.cardRating}>
                   Rating: {restaurant.rating}
                 </Text>
                 <Text style={styles.cardAddress}>
-                  Address: {restaurant.formatted_address}
+                  Address: {restaurant.formatted_address || restaurant.vicinity}
                 </Text>
               </View>
             </Card>
           </TouchableOpacity>
         ))}
-    </ScrollView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -89,5 +89,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'green',
+  },
+  errorMessage: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'red',
+    alignSelf: 'center',
+    marginVertical: 20,
   },
 });

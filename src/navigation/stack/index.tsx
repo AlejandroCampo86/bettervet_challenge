@@ -35,12 +35,12 @@ export const RestaurantsStackScreen: React.FC = () => {
   return (
     <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
       <restaurantsStack.Screen
-        name="RestaurantDetails"
-        component={RestaurantDetails}
-      />
-      <restaurantsStack.Screen
         name="RestaurantsComponent"
         component={RestaurantsComponent}
+      />
+      <restaurantsStack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
       />
     </restaurantsStack.Navigator>
   );
