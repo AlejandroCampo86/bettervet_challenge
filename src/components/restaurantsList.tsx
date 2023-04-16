@@ -50,7 +50,6 @@ export default function RestaurantsList({restaurants}: Props) {
             key={restaurant.place_id}
             onPress={() => handleRestaurantPress(restaurant)}>
             <Card key={restaurant.place_id} containerStyle={styles.card}>
-              {/* Render restaurant photo */}
               {restaurant.photos && restaurant.photos.length > 0 && (
                 <Image
                   source={{

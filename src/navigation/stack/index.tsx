@@ -36,6 +36,10 @@ export const RestaurantsStackScreen: React.FC = () => {
         name="RestaurantsComponent"
         component={RestaurantsComponent}
       />
+      <localRestaurantsStack.Screen
+        name="LocalRestaurantsComponent"
+        component={LocalRestaurantsComponent}
+      />
       <restaurantsStack.Screen
         name="RestaurantDetails"
         children={(props: any) => <RestaurantDetails {...props} />}

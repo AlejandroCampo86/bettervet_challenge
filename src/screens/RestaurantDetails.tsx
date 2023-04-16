@@ -32,7 +32,7 @@ const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({route}) => {
         );
         const data = await response.json();
 
-        // Set reviews from the result
+        // Set reviews
         setReviews(data.result.reviews);
       } catch (error) {
         console.error(error);

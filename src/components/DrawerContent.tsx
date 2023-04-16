@@ -6,13 +6,11 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
-        {/* Logo */}
         <Image
           source={require('../assets/better_vet_logo.jpg')}
           style={styles.logo}
         />
 
-        {/* "Local Restaurants" row */}
         <TouchableOpacity
           style={styles.rowContainer}
           onPress={() => {
@@ -21,10 +19,8 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({navigation}) => {
           <Text style={styles.rowText}>Local Restaurants</Text>
         </TouchableOpacity>
 
-        {/* Thin grey line */}
         <View style={styles.separator} />
 
-        {/* "Search for a Location" row */}
         <TouchableOpacity
           style={styles.rowContainer}
           onPress={() => {
@@ -33,10 +29,8 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = ({navigation}) => {
           <Text style={styles.rowText}>Search for a Location</Text>
         </TouchableOpacity>
 
-        {/* Thin grey line */}
         <View style={styles.separator} />
 
-        {/* "Search for a Location" row */}
         <TouchableOpacity
           style={styles.rowContainer}
           onPress={() => {

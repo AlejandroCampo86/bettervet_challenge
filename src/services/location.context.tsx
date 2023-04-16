@@ -17,14 +17,13 @@ export const LocationContext = createContext<LocationContextType>();
 
 export const LocationContextProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [keyword, setKeyword] = useState('Buenos Aires');
   const [location, setLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [localRestaurants, setLocalRestaurants] = useState([]);
 
-  const onSearch = async searchKeyword => {
+  const onSearch = async (searchKeyword: string) => {
     setIsLoading(true);
     console.log('keyword is ', searchKeyword);
     setKeyword(searchKeyword);
@@ -60,10 +59,10 @@ export const LocationContextProvider = ({children}: any) => {
   const getUserLocation = () => {
     const fetchData = async () => {
       try {
-        const position = await new Promise((resolve, reject) => {
+        const position: any = await new Promise((resolve, reject) => {
           Geolocation.getCurrentPosition(
-            position => {
-              resolve(position);
+            pos => {
+              resolve(pos);
             },
             error => {
               reject(error);
@@ -114,7 +113,6 @@ export const LocationContextProvider = ({children}: any) => {
         restaurants,
         search: onSearch,
         keyword,
-        error,
         userLocation,
         location,
       }}>
