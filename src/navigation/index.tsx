@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon from 'r
 import {StyleSheet, View} from 'react-native';
 import BetterVetLogo from '../assets/better_vet_logo.jpg';
 import {Image, TouchableOpacity} from 'react-native';
+import AboutScreenComponent from '../screens/AboutScreen';
 
 // Define a bottom tab navigator type
 type BottomTabParamList = {
@@ -71,18 +72,23 @@ const Navigation: React.FC = () => {
                 },
               })}>
               <BottomTab.Screen
-                name="LocalRestaurantsTab"
-                component={LocalRestaurantsStackScreen}
+                name="RestaurantsTab"
+                component={RestaurantsStackScreen}
                 options={{tabBarLabel: 'Restaurants'}} // Update tab label
               />
               <BottomTab.Screen
-                name="RestaurantsTab"
-                component={RestaurantsStackScreen}
+                name="LocalRestaurantsTab"
+                component={LocalRestaurantsStackScreen}
                 options={{tabBarLabel: 'Local Restaurants'}} // Update tab label
               />
             </BottomTab.Navigator>
           )}
         </Drawer.Screen>
+        <Drawer.Screen
+          name="AboutScreenComponent"
+          component={AboutScreenComponent}
+          options={{header: () => <CustomHeader />}}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

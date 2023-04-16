@@ -17,31 +17,31 @@ const restaurantsStack = createStackNavigator<RootStackParamList>();
 // Define the LocalRestaurantsStack as a separate component
 export const LocalRestaurantsStackScreen: React.FC = () => {
   return (
-    <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
-      <restaurantsStack.Screen
-        name="RestaurantsComponent"
-        component={RestaurantsComponent}
+    <localRestaurantsStack.Navigator screenOptions={{headerShown: false}}>
+      <localRestaurantsStack.Screen
+        name="LocalRestaurantsComponent"
+        component={LocalRestaurantsComponent}
       />
-      <restaurantsStack.Screen
+      <localRestaurantsStack.Screen
         name="RestaurantDetails"
         component={RestaurantDetails}
       />
-    </restaurantsStack.Navigator>
+    </localRestaurantsStack.Navigator>
   );
 };
 
 // Define the RestaurantsStack as a separate component
 export const RestaurantsStackScreen: React.FC = () => {
   return (
-    <localRestaurantsStack.Navigator screenOptions={{headerShown: false}}>
-      <localRestaurantsStack.Screen
-        name="LocalRestaurantsComponent"
-        component={LocalRestaurantsComponent}
-      />
+    <restaurantsStack.Navigator screenOptions={{headerShown: false}}>
       <restaurantsStack.Screen
         name="RestaurantDetails"
         component={RestaurantDetails}
       />
-    </localRestaurantsStack.Navigator>
+      <restaurantsStack.Screen
+        name="RestaurantsComponent"
+        component={RestaurantsComponent}
+      />
+    </restaurantsStack.Navigator>
   );
 };
