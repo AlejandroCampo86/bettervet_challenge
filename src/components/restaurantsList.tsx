@@ -2,6 +2,8 @@ import React from 'react';
 import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Card, Text} from '@rneui/base';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigation/stack';
 
 interface Restaurant {
   place_id: string;
@@ -16,8 +18,13 @@ interface Props {
   restaurants: Restaurant[];
 }
 
+type RestaurantDetailsProp = StackNavigationProp<
+  RootStackParamList,
+  'RestaurantDetails'
+>;
+
 export default function RestaurantsList({restaurants}: Props) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RestaurantDetailsProp>();
 
   const handleRestaurantPress = (restaurant: Restaurant) => {
     if (restaurant) {

@@ -3,16 +3,30 @@ import {View, StyleSheet} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {LocationContext} from '../services/location.context';
 
-export default function MapViewComponent() {
+interface Restaurant {
+  place_id: string;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  name: string;
+  vicinity: string;
+}
+
+const MapViewComponent: React.FC = () => {
   const {location, restaurants} = useContext(LocationContext);
-  const mapRef = useRef(null);
+  const mapRef = useRef<MapView>(null);
 
   useEffect(() => {
     if (location && restaurants.length > 0 && mapRef.current) {
-      const markers = restaurants.slice(0, 10).map(restaurant => ({
-        latitude: restaurant.geometry.location.lat,
-        longitude: restaurant.geometry.location.lng,
-      }));
+      const markers = restaurants
+        .slice(0, 10)
+        .map((restaurant: Restaurant) => ({
+          latitude: restaurant.geometry.location.lat,
+          longitude: restaurant.geometry.location.lng,
+        }));
       mapRef.current.fitToCoordinates(markers, {
         edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
         animated: true,
@@ -33,7 +47,7 @@ export default function MapViewComponent() {
             longitudeDelta: 0.0421,
           }}>
           {/* Render restaurant markers on the map */}
-          {restaurants.slice(0, 10).map(restaurant => (
+          {restaurants.slice(0, 10).map((restaurant: Restaurant) => (
             <Marker
               key={restaurant.place_id}
               coordinate={{
@@ -48,7 +62,7 @@ export default function MapViewComponent() {
       ) : null}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   mapContainer: {
@@ -65,3 +79,5 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 });
+
+export default MapViewComponent;
