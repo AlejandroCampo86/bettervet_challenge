@@ -3,7 +3,17 @@ import {fetchLocalRestaurants} from './location.service';
 import Geolocation from '@react-native-community/geolocation';
 import camelize from 'camelize';
 
-export const LocationContext = createContext();
+export type LocationContextType = {
+  isLoading: boolean;
+  localRestaurants: any[];
+  restaurants: any[];
+  search: (searchKeyword: string) => void;
+  keyword: string;
+  error: any;
+  userLocation: any;
+  location: any;
+};
+export const LocationContext = createContext<LocationContextType>();
 
 export const LocationContextProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);

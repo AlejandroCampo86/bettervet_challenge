@@ -16,7 +16,7 @@ const RestaurantsComponent: React.FC = () => {
       duration: 1000,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [slideAnim]);
 
   return (
     <View style={styles.container}>

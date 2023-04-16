@@ -3,11 +3,26 @@ import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Card, Text} from '@rneui/base';
 import {useNavigation} from '@react-navigation/native';
 
-export default function RestaurantsList({restaurants}) {
+interface Restaurant {
+  place_id: string;
+  rating: number;
+  photos: {photo_reference: string}[];
+  name: string;
+  formatted_address?: string;
+  vicinity?: string;
+}
+
+interface Props {
+  restaurants: Restaurant[];
+}
+
+export default function RestaurantsList({restaurants}: Props) {
   const navigation = useNavigation();
 
-  const handleRestaurantPress = restaurant => {
-    navigation.navigate('RestaurantDetails', {restaurant});
+  const handleRestaurantPress = (restaurant: Restaurant) => {
+    if (restaurant) {
+      navigation.navigate('RestaurantDetails', {restaurant});
+    }
   };
 
   if (!restaurants || restaurants.length === 0) {
@@ -21,7 +36,7 @@ export default function RestaurantsList({restaurants}) {
   return (
     <View style={styles.cardContainer}>
       {restaurants
-        .sort((a: {rating: number}, b: {rating: number}) => b.rating - a.rating) // Sort restaurants by highest rating
+        .sort((a, b) => b.rating - a.rating) // Sort restaurants by highest rating
         .slice(0, 10) // Get the first 10 items
         .map(restaurant => (
           <TouchableOpacity
@@ -53,12 +68,11 @@ export default function RestaurantsList({restaurants}) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     padding: 5,
-    //marginTop: 10,
-
     flexDirection: 'column',
   },
   card: {

@@ -1,9 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
+import {RouteProp} from '@react-navigation/native';
 
-const RestaurantDetails = ({route}) => {
-  const {restaurant} = route.params; // Get the restaurant object passed as parameter
-  const [reviews, setReviews] = useState([]); // State to store reviews
+type Restaurant = {
+  place_id: string;
+  photos: {photo_reference: string}[];
+  name: string;
+  rating: number;
+  formatted_address: string;
+};
+
+type Review = {
+  author_name: string;
+  text: string;
+};
+
+type RestaurantDetailsProps = {
+  route: RouteProp<{params: {restaurant: Restaurant}}, 'params'>;
+};
+
+const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({route}) => {
+  const {restaurant} = route.params;
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     // Fetch place details using the place_id
@@ -11,8 +29,7 @@ const RestaurantDetails = ({route}) => {
       try {
         const response = await fetch(
           `https://maps.googleapis.com/maps/api/place/details/json?placeid=${restaurant.place_id}&fields=reviews&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M`,
-        ); // Replace YOUR_API_KEY with your actual Google Maps API key
-
+        );
         const data = await response.json();
 
         // Set reviews from the result

@@ -1,13 +1,28 @@
-// Import necessary modules and components
 import React, {useContext, useEffect, useRef} from 'react';
 import {View, StyleSheet, ScrollView, Text, Animated} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {LocationContext} from '../services/location.context';
+import {
+  LocationContext,
+  LocationContextType,
+} from '../services/location.context';
 import RestaurantsList from '../components/restaurantsList';
 
-// Define the restaurant screen component
+interface Restaurant {
+  place_id: string;
+  name: string;
+  vicinity: string;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+}
+
 const LocalRestaurantsComponent: React.FC = () => {
-  const {localRestaurants, userLocation} = useContext(LocationContext);
+  const {localRestaurants, userLocation}: LocationContextType =
+    useContext(LocationContext);
+
   const slideAnim = useRef(new Animated.Value(-500)).current;
 
   useEffect(() => {
@@ -16,7 +31,7 @@ const LocalRestaurantsComponent: React.FC = () => {
       duration: 1000,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [slideAnim]);
 
   return (
     <View style={styles.container}>
@@ -39,7 +54,7 @@ const LocalRestaurantsComponent: React.FC = () => {
           </View>
           <View style={styles.mapContainer}>
             <MapView style={styles.map} initialRegion={userLocation}>
-              {localRestaurants.map(restaurant => (
+              {localRestaurants.map((restaurant: Restaurant) => (
                 <Marker
                   key={restaurant.place_id}
                   coordinate={{
