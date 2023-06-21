@@ -59,13 +59,15 @@ const Navigation: React.FC = () => {
               screenOptions={({route}) => ({
                 headerShown: false,
                 tabBarIcon: ({color, size}) => {
-                  let iconName;
+                  let iconName: string | undefined;
                   if (route.name === 'LocalRestaurantsTab') {
                     iconName = 'cutlery';
                   } else if (route.name === 'RestaurantsTab') {
                     iconName = 'glass';
                   }
-                  return <Icon name={iconName} size={size} color={color} />;
+                  return (
+                    <Icon name={iconName || ''} size={size} color={color} />
+                  );
                 },
               })}>
               <BottomTab.Screen
