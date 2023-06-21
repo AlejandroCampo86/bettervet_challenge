@@ -53,8 +53,7 @@ export default function RestaurantsList({restaurants}: Props) {
               {restaurant.photos && restaurant.photos.length > 0 && (
                 <Image
                   source={{
-                    uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M
-`,
+                    uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=AIzaSyC_U3QoJx6cviFt-IDRqvU01pBP0Ck4f2M`,
                   }}
                   style={styles.cardImage}
                 />

@@ -13,23 +13,40 @@ export type LocationContextType = {
   userLocation: any;
   location: any;
 };
-export const LocationContext = createContext<LocationContextType>();
+
+type UserLocationType = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+};
+
+type LocationType = {
+  lat: number;
+  lng: number;
+  viewport: any;
+};
+
+export const LocationContext = createContext<LocationContextType | null>(null);
 
 export const LocationContextProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [keyword, setKeyword] = useState('Buenos Aires');
-  const [location, setLocation] = useState(null);
-  const [userLocation, setUserLocation] = useState(null);
+  const [location, setLocation] = useState<LocationType | null>(null);
+  const [userLocation, setUserLocation] = useState<UserLocationType | null>(
+    null,
+  );
   const [restaurants, setRestaurants] = useState([]);
   const [localRestaurants, setLocalRestaurants] = useState([]);
 
+  //set keyword
   const onSearch = async (searchKeyword: string) => {
     setIsLoading(true);
-    console.log('keyword is ', searchKeyword);
     setKeyword(searchKeyword);
     await fetchDataByKeyword(searchKeyword.toLowerCase());
   };
 
+  //fetch places by keyword
   const fetchDataByKeyword = (value: any) => {
     console.log('keyword', value);
     return new Promise(() => {
@@ -108,6 +125,7 @@ export const LocationContextProvider = ({children}: any) => {
   return (
     <LocationContext.Provider
       value={{
+        error: null,
         isLoading,
         localRestaurants,
         restaurants,

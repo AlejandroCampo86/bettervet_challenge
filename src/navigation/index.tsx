@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   menuIconContainer: {
-    //borderWidth: 1,
     width: 60,
     height: 60,
     justifyContent: 'center',
